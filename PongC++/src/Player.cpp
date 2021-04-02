@@ -17,6 +17,23 @@ Player::Player(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions, 
 	collider.Create(m_pos, m_dimension);
 }
 
+void Player::InitializePlayer(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions, Ball* ballPtr)
+{
+	m_BallPtr = ballPtr;
+	//Initialize the renderer ref
+	m_RendererPtr = renderer;
+
+	//position player in the world
+	m_pos = pos;
+	m_dimension = dimensions;
+
+	//This will initialize the player rect data
+	UpdateRectData();
+
+	//Then create the Box Collider
+	collider.Create(m_pos, m_dimension);
+}
+
 void Player::Move(int deltaY)
 {
 	m_pos.y += deltaY;

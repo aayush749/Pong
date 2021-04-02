@@ -9,10 +9,11 @@ class Player
 {
 public:
 	
-	//Ctor
+	//Ctors
+	Player() = default;
 	Player(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions, Ball* ballPtr);
 
-
+	void InitializePlayer(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions, Ball* ballPtr);
 	/*
 	Player shall move only up or down
 	1. deltaY will be negative for moving up.
