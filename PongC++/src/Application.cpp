@@ -1,21 +1,29 @@
 #include "Core_Components.h"
 #include "Player.h"
+#include "Ball.h"
 
+//Globals
 int game_is_running = FALSE;
 
-int main();
-
-void Start(Renderer&), ProcessInput(Player&), Update(), Render(Renderer&, Player&), ManageKeyBoardInput(SDL_Event& event, Player&);
+void Start(Renderer&), ProcessInput(Player&), Update(Ball&), Render(Renderer&, Player&, Ball&), ManageKeyBoardInput(SDL_Event& event, Player&);
 
 int main()
 {
 	std::cout << "Initializing renderer\n";
 	Renderer renderer;
 
+	//Player Data
 	Vector2<int> playerPos = { 0, WINDOW_HEIGHT / 2 };
 	Vector2<int> playerDimension = { 30, 70 };
 
 	Player player(&renderer, playerPos, playerDimension);
+
+	//Ball Data
+	Vector2<int> ballPos = { WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 };
+	Vector2<int> ballDimension = { 10, 10 };
+	Vector2<int> initialVelocity = { 5, 5 };
+
+	Ball ball(&renderer, ballPos, ballDimension, initialVelocity);
 
 	Start(renderer);
 
@@ -23,8 +31,8 @@ int main()
 	while (game_is_running)
 	{
 		ProcessInput(player);
-		Update();
-		Render(renderer, player);
+		Update(ball);
+		Render(renderer, player, ball);
 	}
 	return 0;
 }
@@ -55,15 +63,18 @@ void ProcessInput(Player& player)
 	}
 }
 
-void Update()
+void Update(Ball& ball)
 {
-	//Work pending
+	SDL_Delay(FRAME_TARGET_TIME);
+	ball.Move();
+
 }
 
-void Render(Renderer& renderer, Player& player)
+void Render(Renderer& renderer, Player& player, Ball& ball)
 {
 	renderer.FillScreen(0, 155, 20, 255);
-	player.RenderPlayer();
+	player.Render();
+	ball.Render();
 	renderer.SwapBuffers();
 }
 

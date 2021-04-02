@@ -11,6 +11,9 @@
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 
+#define FPS 30
+#define FRAME_TARGET_TIME (1000 / FPS)		//time for which a single frame stays on the screen(in ms)
+
 extern int game_is_running;
 class Renderer
 {
@@ -99,5 +102,11 @@ template<typename T>
 struct Vector2
 {
 	T x, y;
+
+	void operator+=(Vector2<T> other)
+	{
+		x += other.x;
+		y += other.y;
+	}
 };
 

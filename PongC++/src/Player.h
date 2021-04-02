@@ -22,7 +22,7 @@ public:
 	void Shoot();
 
 	//Render functions
-	void RenderPlayer();
+	void Render();
 
 	//Dtor
 	~Player()
@@ -35,6 +35,11 @@ private:
 	Vector2<int> m_pos;
 	Vector2<int> m_dimension;
 
+	//Rectangle to represent the player
 	SDL_Rect m_Player_rect;
+
+private:
+	//To update the player's rect data
+	void UpdateRectData();
 };
 
