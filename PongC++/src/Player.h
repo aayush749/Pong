@@ -1,13 +1,16 @@
 #pragma once
 
 #include "Core_Components.h"
+#include "BoxCollider2D.h"
+#include "Ball.h"
+
 
 class Player
 {
 public:
 	
 	//Ctor
-	Player(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions);
+	Player(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions, Ball* ballPtr);
 
 
 	/*
@@ -30,6 +33,10 @@ public:
 		//Nothing here because player doesnot hold any such data
 	}
 
+	//For now..
+	//This method will run each frame, checking if the ball enters the region of the 
+	void CheckCollisionsWithBall();
+
 private:
 	Renderer* m_RendererPtr;
 	Vector2<int> m_pos;
@@ -38,6 +45,12 @@ private:
 	//Rectangle to represent the player
 	SDL_Rect m_Player_rect;
 
+
+	//A reference to the ball
+	Ball* m_BallPtr;
+
+	//A box collider for the player, to detect collisions
+	BoxCollider2D collider;
 private:
 	//To update the player's rect data
 	void UpdateRectData();

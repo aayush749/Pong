@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions)
+Player::Player(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions, Ball* ballPtr)
+	:m_BallPtr(ballPtr)
 {
 	//Initialize the renderer ref
 	m_RendererPtr = renderer;
@@ -11,11 +12,17 @@ Player::Player(Renderer* renderer, Vector2<int>& pos, Vector2<int>& dimensions)
 
 	//This will initialize the player rect data
 	UpdateRectData();
+
+	//Then create the Box Collider
+	collider.Create(m_pos, m_dimension);
 }
 
 void Player::Move(int deltaY)
 {
 	m_pos.y += deltaY;
+
+	//Update the associated collider
+	collider.Update(m_pos, m_dimension);
 }
 
 void Player::Shoot()
@@ -46,4 +53,27 @@ void Player::UpdateRectData()
 		m_dimension.x,
 		m_dimension.y
 	};
+}
+
+void Player::CheckCollisionsWithBall()
+{
+	ContactPoint contact = collider.HasEntered(*m_BallPtr);
+
+	if (contact == ContactPoint::No_Contact)
+		return;
+	switch (contact)
+	{
+		case ContactPoint::X:
+			m_BallPtr->ChangeVelocity(VelocityDir::X);
+			break;
+
+		case ContactPoint::Y:
+			m_BallPtr->ChangeVelocity(VelocityDir::Y);
+			break;
+
+		case ContactPoint::Corner:
+			m_BallPtr->ChangeVelocity(VelocityDir::X);
+			m_BallPtr->ChangeVelocity(VelocityDir::Y);
+			break;
+	}
 }

@@ -15,6 +15,13 @@
 #define FRAME_TARGET_TIME (1000 / FPS)		//time for which a single frame stays on the screen(in ms)
 
 extern int game_is_running;
+
+enum class VelocityDir
+{
+	X, Y
+};
+
+
 class Renderer
 {
 

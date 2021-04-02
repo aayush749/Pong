@@ -5,19 +5,13 @@
 //Globals
 int game_is_running = FALSE;
 
-void Start(Renderer&), ProcessInput(Player&), Update(Ball&), Render(Renderer&, Player&, Ball&), ManageKeyBoardInput(SDL_Event& event, Player&);
+void Start(Renderer&), ProcessInput(Player&), Update(Ball&, Player&), Render(Renderer&, Player&, Ball&), ManageKeyBoardInput(SDL_Event& event, Player&);
 
 int main()
 {
 	std::cout << "Initializing renderer\n";
 	Renderer renderer;
-
-	//Player Data
-	Vector2<int> playerPos = { 0, WINDOW_HEIGHT / 2 };
-	Vector2<int> playerDimension = { 30, 70 };
-
-	Player player(&renderer, playerPos, playerDimension);
-
+	
 	//Ball Data
 	Vector2<int> ballPos = { WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 };
 	Vector2<int> ballDimension = { 10, 10 };
@@ -25,13 +19,23 @@ int main()
 
 	Ball ball(&renderer, ballPos, ballDimension, initialVelocity);
 
+
+	//Player Data
+	Vector2<int> playerPos = { 0, WINDOW_HEIGHT / 2 };
+	Vector2<int> playerDimension = { 30, 70 };
+
+	Player player(&renderer, playerPos, playerDimension, &ball);
+
+	
+
+
 	Start(renderer);
 
 
 	while (game_is_running)
 	{
 		ProcessInput(player);
-		Update(ball);
+		Update(ball, player);
 		Render(renderer, player, ball);
 	}
 	return 0;
@@ -63,11 +67,11 @@ void ProcessInput(Player& player)
 	}
 }
 
-void Update(Ball& ball)
+void Update(Ball& ball, Player& player)
 {
 	SDL_Delay(FRAME_TARGET_TIME);
 	ball.Move();
-
+	player.CheckCollisionsWithBall();
 }
 
 void Render(Renderer& renderer, Player& player, Ball& ball)
