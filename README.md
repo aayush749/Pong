@@ -1,5 +1,5 @@
 # Pong
-This is a Pong game made by me in C++ with SDL library support.
+This is a Pong game made by me in C++ with SDL2 library.
 
 # Screenshots
 
